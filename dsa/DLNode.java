@@ -5,9 +5,9 @@
  package dsa;
 
  public class DLNode implements Position {
-     private Object element;
-     private DLNode prev;
-     private DLNode next;
+     private Object element; //数据对象
+     private DLNode prev; //指向前驱节点
+     private DLNode next; //指向后继节点
 
 /* 构造函数 */
      public DLNode() {
@@ -15,7 +15,7 @@
      }
      public DLNode(Object e, DLNode p; DLNode n) {
          element = e; prev = p; next = n;
-     } //注意三个参数的次序：数据对象、前驱使节点、后继节点
+     } //注意三个参数的次序：数据对象、前驱节点、后继节点
 
 /* Position接口方法  */
 //返回存放于该位置的元素
