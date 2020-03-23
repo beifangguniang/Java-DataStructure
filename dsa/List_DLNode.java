@@ -9,26 +9,24 @@ public class List_DLNode implements List {
     protected DLNode header,trailer; //哨兵：首节点+末节点
 
 //构造函数
-
     public List_DLNode() {
         numElem = 0;//空表
-        header = new DLNOde(null, null, null);//头节点
-        trailer = new dLNode(null, header,null);//尾节点
-        header.setNext(trailer);//头，尾节点相互链接
+        header = new DLNode(null, null, null);//首节点
+        trailer = new DLNode(null, header,null);//末节点
+        header.setNext(trailer);//首、末节点相互链接
     }
 
 /* 辅助方法 */
 //检查给定位置在列表中是否合法，若是，则将其转换为×DLNode
-    protected DLNode checkPosition(Position p) 
-       throws ExceptionPositionInvalid {
-           if (null == p) 
-              throw new ExceptionPositionInvalid("意外：传递给List_DLNode的位置是Null");
-            if (header == p)
-              throw new ExceptionPositionInvalid("意外：头节点哨兵位置非法");
-            if (trailer == p) 
-              throw new ExceptionPositionInvalid("意外：尾节点哨兵位置非法");
-            DLNode temp = (DLNode)p;
-            return temp;
+    protected DLNode checkPosition(Position p) throws ExceptionPositionInvalid {
+        if (null == p) 
+            throw new ExceptionPositionInvalid("异常：传递给List_DLNode的位置是Null");
+        if (header == p)
+            throw new ExceptionPositionInvalid("异常：头节点哨兵位置非法");
+        if (trailer == p) 
+            throw new ExceptionPositionInvalid("异常：尾节点哨兵位置非法");
+        DLNode temp = (DLNode)p;
+        return temp;
        }
 
 /* ADT方法 */
@@ -45,24 +43,24 @@ public class List_DLNode implements List {
 //返回第一个元素（的位置）
     public Position first() throws ExceptionListEmpty {
         if (isEmpty()) 
-           throw new ExceptionListEmpty("意外：列表空");
-        return header,getNext();
+           throw new ExceptionListEmpty("异常：列表空");
+        return header.getNext();
     }
 
 //返回最后一个元素（的位置）
     public Position last() throws ExceptionListEmpty {
         if (isEmpty())
-          throw new ExceptionListEmpty("意外：列表空");
+          throw new ExceptionListEmpty("异常：列表空");
         return trailer.getPrev();
    }
 
 //返回仅靠给定位置之前的元素（的位置）
-    public Positon getPrev(Position p)
-      throws ExceptionPositionInvalid, ExceptionBoundaryViolation {
+    public Position getPrev(Position p)
+    throws ExceptionPositionInvalid, ExceptionBoundaryViolation {
           DLNode v = checkPosition(p);
           DLNode prev = v.getPrev();
           if (prev == header)
-            throw new ExceptionBoundaryViolation("意外：企图越过列表前端");
+            throw new ExceptionBoundaryViolation("异常：企图越过列表前端");
         return prev;
       }
 
@@ -72,7 +70,7 @@ public class List_DLNode implements List {
         DLNode v = checkPosition(p);
         DLNode next = v.getNext();
         if (next == trailer)
-          throw new ExceptionBoundaryViolation("意外：企图越过列表后端");
+          throw new ExceptionBoundaryViolation("异常：企图越过列表后端");
       return next;
     }
 
@@ -92,7 +90,7 @@ public class List_DLNode implements List {
       throws ExceptionPositionInvalid {
       DLNode v = checkPosition(p);
       numElem++;
-      DLNode newNode = new DLNode(element, v.getNext());
+      DLNode newNode = new DLNode(element, v, v.getNext());
       v.getNext().setPrev(newNode);
       v.setNext(newNode);
       return newNode;
@@ -110,10 +108,10 @@ public class List_DLNode implements List {
 //将e作为最后一个元素插入列表
     public Position insertLast(Object e) {
     numElem++;
-    DLNode newNode = new DLNode(e, traier.getPrev(), trailer);
+    DLNode newNode = new DLNode(e, trailer.getPrev(), trailer);
     if (null == trailer.getPrev())
       System.out.println("!!!Prev of trailer is Null!!!");
-    traier.getPrev().setNext(newNode);
+    trailer.getPrev().setNext(newNode);
     trailer.setPrev(newNode);
     return newNode;
     }
@@ -128,7 +126,7 @@ public class List_DLNode implements List {
           vPrev.setNext(vNext);
           vNext.setPrev(vPrev);
           Object vElem = v.getElem();
-    //将该位置（节点）从列表中摘出，以便系统回收其占用的空间
+//将该位置（节点）从列表中摘除，以便系统回收其占用的空间
           v.setNext(null);
           v.setPrev(null);
           return vElem;
@@ -146,7 +144,7 @@ public class List_DLNode implements List {
 
 //将处于给定位置的元素替换为新元素，并返回被替换的元素
     public Object replace(Position p, Object obj) 
-      throws  xceptionPositionInvalid {
+      throws  ExceptionPositionInvalid {
           DLNode v = checkPosition(p);
           Object oldElem = v.getElem();
           v.setElem(obj);
@@ -160,6 +158,6 @@ public class List_DLNode implements List {
 
 //元素迭代器
     public Iterator elements() {
-         return new IteratorElement(this);
-        }
+        return new IteratorElement(this);
+    }
 }
